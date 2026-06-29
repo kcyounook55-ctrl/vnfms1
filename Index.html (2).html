@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유키(YUKI) - 청라 프리미엄 이자카야</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Noto+Serif+KR:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Noto Serif KR', 'serif'],
+                        brand: ['Cinzel', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'Noto Sans KR', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            gold: '#D4AF37',
+                            goldLight: '#F3E5AB',
+                            dark: '#0D0E12',
+                            card: '#16181F',
+                            accent: '#FF7B7B',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0D0E12;
+            color: #E2E8F0;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0D0E12;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2C2F3A;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+        /* Falling Cherry Blossoms Animation */
+        .blossom {
+            position: absolute;
+            background-color: #ffb7c5;
+            border-radius: 100% 0 100% 100%;
+            pointer-events: none;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-10px) rotate(0deg);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden selection:bg-brand-gold selection:text-brand-dark">
+
+    <!-- FLOATING BACKGROUND EFFECT -->
+    <div id="blossom-container" class="fixed inset-0 pointer-events-none z-10 overflow-hidden"></div>
+
+    <!-- HEADER & NAVIGATION -->
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-brand-dark/80 backdrop-blur-md border-b border-white/5" id="main-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex flex-col items-start">
+                <span class="font-brand text-2xl lg:text-3xl font-bold tracking-widest text-brand-gold">YUKI</span>
+                <span class="text-[9px] tracking-[0.25em] text-gray-400 -mt-1">이자카야 유키</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
+                <a href="#about" class="text-gray-300 hover:text-brand-gold transition">브랜드 스토리</a>
+                <a href="#ai-summary" class="text-gray-300 hover:text-brand-gold transition">AI 요약</a>
+                <a href="#menu" class="text-gray-300 hover:text-brand-gold transition">시그니처 메뉴</a>
+                <a href="#seats" class="text-gray-300 hover:text-brand-gold transition">공간 예약</a>
+                <a href="#reviews" class="text-gray-300 hover:text-brand-gold transition">방문자 리뷰</a>
+                <a href="#location" class="text-gray-300 hover:text-brand-gold transition">오시는 길</a>
+            </nav>
+
+            <!-- Reservation Button -->
+            <div class="hidden md:block">
+                <a href="#reservation" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-brand-gold to-yellow-600 text-brand-dark font-semibold text-sm hover:scale-105 active:scale-95 transition-all shadow-lg shadow-brand-gold/20">
+                    <i class="fa-regular fa-calendar-check mr-1.5"></i> 실시간 자리 예약
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-gray-300 hover:text-brand-gold focus:outline-none" id="mobile-menu-btn" aria-label="메뉴 열기">
+                <i class="fa-solid fa-bars text-2xl" id="menu-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div class="md:hidden hidden bg-brand-dark border-b border-white/10" id="mobile-menu">
+            <div class="px-4 pt-2 pb-6 space-y-3 text-center">
+                <a href="#about" class="block py-2 text-gray-300 hover:text-brand-gold" onclick="toggleMobileMenu()">브랜드 스토리</a>
+                <a href="#ai-summary" class="block py-2 text-gray-300 hover:text-brand-gold" onclick="toggleMobileMenu()">AI 요약</a>
+                <a href="#menu" class="block py-2 text-gray-300 hover:text-brand-gold" onclick="toggleMobileMenu()">시그니처 메뉴</a>
+                <a href="#seats" class="block py-2 text-gray-300 hover:text-brand-gold" onclick="toggleMobileMenu()">공간 예약</a>
+                <a href="#reviews" class="block py-2 text-gray-300 hover:text-brand-gold" onclick="toggleMobileMenu()">방문자 리뷰</a>
+                <a href="#location" class="block py-2 text-gray-300 hover:text-brand-gold" onclick="toggleMobileMenu()">오시는 길</a>
+                <a href="#reservation" class="block py-3 px-5 rounded-lg bg-brand-gold text-brand-dark font-bold text-sm" onclick="toggleMobileMenu()">
+                    실시간 자리 예약
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden" id="hero">
+        <!-- Visual Overlay Cover Background -->
+        <div class="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-card/40 via-brand-dark/95 to-brand-dark"></div>
+        
+        <!-- Premium Ambient Image with Slow Zoom -->
+        <div class="absolute inset-0 z-0 opacity-30 select-none pointer-events-none scale-105 animate-[pulse_6s_ease-in-out_infinite]">
+            <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1920&auto=format&fit=crop" alt="Premium Izakaya" class="w-full h-full object-cover">
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-4 text-center space-y-8 mt-12 md:mt-0">
+            <!-- Premium Badge -->
+            <div class="inline-flex items-center space-x-2 bg-brand-gold/10 border border-brand-gold/30 px-4 py-2 rounded-full text-xs font-semibold tracking-wider text-brand-goldLight animate-pulse uppercase">
+                <i class="fa-solid fa-gem text-xs"></i>
+                <span>청라 커넬웨이 No.1 이자카야</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold font-serif leading-tight tracking-wide">
+                바삭함의 정석,<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold via-brand-goldLight to-brand-gold">감성의 절정을 만나다</span>
+            </h1>
+
+            <p class="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto font-light leading-relaxed">
+                인천 청라 커넬웨이와 호수공원이 교차하는 비밀스러운 지하 수변길.<br>
+                프라이빗한 다다미방에서 장인 정신이 담긴 수제 요리와 시원한 사케를 음미하세요.
+            </p>
+
+            <!-- Quick Info Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto pt-6 text-sm text-gray-400 border-t border-b border-white/5 py-6">
+                <div>
+                    <span class="block text-brand-gold text-lg font-bold">17:00 ~ 02:00</span>
+                    <span class="text-xs">매주 일요일 정기휴무</span>
+                </div>
+                <div class="border-l border-white/10">
+                    <span class="block text-brand-gold text-lg font-bold"><i class="fa-solid fa-ban text-xs mr-1 text-red-400"></i> No Kids Zone</span>
+                    <span class="text-xs">어른들의 온전한 힐링 공간</span>
+                </div>
+                <div class="border-l border-white/10">
+                    <span class="block text-brand-gold text-lg font-bold">호리타타미</span>
+                    <span class="text-xs">발을 내려놓는 정통 일본 좌식</span>
+                </div>
+                <div class="border-l border-white/10">
+                    <span class="block text-brand-gold text-lg font-bold">수변 테라스 뷰</span>
+                    <span class="text-xs">커넬웨이 수변길 야경</span>
+                </div>
+            </div>
+
+            <!-- Call To Actions -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <a href="#seats" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-brand-gold to-yellow-600 text-brand-dark font-bold hover:scale-105 transition shadow-lg shadow-brand-gold/30 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-map-pin"></i>
+                    <span>원하는 명당 자리 선택하기</span>
+                </a>
+                <a href="#menu" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white/5 border border-white/15 text-white font-semibold hover:bg-white/10 hover:border-brand-gold/30 transition flex items-center justify-center space-x-2">
+                    <span>안주 및 주류 메뉴판</span>
+                    <i class="fa-solid fa-arrow-right text-xs text-brand-gold"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Floating Indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center opacity-70 hover:opacity-100 transition duration-300">
+            <span class="text-xs tracking-widest text-brand-gold mb-2">SCROLL DOWN</span>
+            <div class="w-6 h-10 border-2 border-brand-gold/50 rounded-full flex justify-center p-1">
+                <div class="w-1.5 h-1.5 bg-brand-gold rounded-full animate-[bounce_1.5s_infinite]"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI SUMMARY SECTION -->
+    <section id="ai-summary" class="py-24 bg-gradient-to-b from-brand-dark to-brand-card/30 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="bg-gradient-to-br from-brand-card to-brand-dark/50 border border-brand-gold/20 rounded-3xl p-6 sm:p-10 relative overflow-hidden shadow-2xl">
+                <!-- Background Glowing Circle -->
+                <div class="absolute top-0 right-0 w-80 h-80 bg-brand-gold/5 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8 pb-6 border-b border-white/5">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-gold/15 flex items-center justify-center border border-brand-gold/30 text-brand-gold">
+                            <i class="fa-solid fa-microchip-ai text-2xl"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-brand-gold font-bold tracking-widest uppercase">Smart Insight</span>
+                            <h2 class="text-xl sm:text-2xl font-serif font-bold text-white">AI가 간략히 분석한 '유키' 브리핑</h2>
+                        </div>
+                    </div>
+                    <span class="text-[11px] text-gray-500 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+                        <i class="fa-solid fa-circle-info text-brand-gold/80 mr-1.5"></i>628여 개의 방문자 데이터를 기반으로 요약
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                    <!-- AI Bullets -->
+                    <div class="space-y-4 text-gray-300 text-sm sm:text-base leading-relaxed">
+                        <div class="flex items-start space-x-3 bg-white/5 p-4 rounded-xl border border-white/5 hover:border-brand-gold/10 transition">
+                            <span class="text-brand-gold font-bold mt-0.5"><i class="fa-solid fa-circle-check"></i></span>
+                            <p><strong>프라이빗 아늑한 인테리어 :</strong> 좌석들이 칸막이로 깔끔히 분리되어 있어 데이트나 모임에 아주 탁월하며, 테이블 하단에 발을 내릴 수 있는 <strong>정통 일본식 좌식(호리타타미)</strong>으로 극상의 편안함을 제공합니다.</p>
+                        </div>
+                        <div class="flex items-start space-x-3 bg-white/5 p-4 rounded-xl border border-white/5 hover:border-brand-gold/10 transition">
+                            <span class="text-brand-gold font-bold mt-0.5"><i class="fa-solid fa-circle-check"></i></span>
+                            <p><strong>최고의 신선도 시그니처 :</strong> 청라의 명물인 모듬사시미와 윤기가 흐르는 딱새우사시미, 소고기 타다끼는 단골들이 입을 모아 최우선으로 추천하는 핵심 안주입니다.</p>
+                        </div>
+                        <div class="flex items-start space-x-3 bg-white/5 p-4 rounded-xl border border-white/5 hover:border-brand-gold/10 transition">
+                            <span class="text-brand-gold font-bold mt-0.5"><i class="fa-solid fa-circle-check"></i></span>
+                            <p><strong>숨겨진 명품 조연 :</strong> 기본 찬으로 무상 제공되는 단짠단짠 프레첼 과자와 매콤달콤한 일본식 단무지 무침이 메인 안주 못지않게 별미로 꼽힙니다.</p>
+                        </div>
+                    </div>
+
+                    <!-- AI Stats Visual Map -->
+                    <div class="bg-brand-dark/60 border border-white/10 rounded-2xl p-6 flex flex-col justify-between">
+                        <h3 class="text-sm text-brand-goldLight font-semibold mb-4 flex items-center">
+                            <i class="fa-solid fa-chart-simple-horizontal mr-2"></i> 방문자들이 뽑은 대표 키워드 Top
+                        </h3>
+                        
+                        <div class="space-y-4">
+                            <!-- Keyword 1 -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs sm:text-sm">
+                                    <span class="text-white font-medium">✨ 음식이 맛있어요</span>
+                                    <span class="text-brand-gold font-bold">367명</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-2.5 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-brand-gold to-yellow-500 h-full rounded-full" style="width: 90%;"></div>
+                                </div>
+                            </div>
+                            <!-- Keyword 2 -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs sm:text-sm">
+                                    <span class="text-white font-medium">🌌 인테리어가 멋져요 / 대화하기 좋아요</span>
+                                    <span class="text-brand-gold font-bold">191명</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-2.5 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-brand-gold to-yellow-500 h-full rounded-full" style="width: 65%;"></div>
+                                </div>
+                            </div>
+                            <!-- Keyword 3 -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs sm:text-sm">
+                                    <span class="text-white font-medium">🤍 직원들이 친절해요</span>
+                                    <span class="text-brand-gold font-bold">128명</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-2.5 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-brand-gold to-yellow-500 h-full rounded-full" style="width: 45%;"></div>
+                                </div>
+                            </div>
+                            <!-- Keyword 4 -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs sm:text-sm">
+                                    <span class="text-white font-medium">🥨 기본 안주가 훌륭해요</span>
+                                    <span class="text-brand-gold font-bold">110명</span>
+                                </div>
+                                <div class="w-full bg-white/5 h-2.5 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-brand-gold to-yellow-500 h-full rounded-full" style="width: 38%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 text-[11px] text-gray-500 italic text-center">
+                            * 본 통계는 청라 유키를 직접 방문하고 남긴 영수증 기반 리얼 리뷰 통계입니다.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU HIGHLIGHTS SECTION (Interactive Tabs) -->
+    <section id="menu" class="py-24 bg-brand-dark relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            
+            <div class="text-center space-y-3 mb-16">
+                <span class="text-brand-gold font-bold tracking-widest text-xs uppercase">Culinary Excellence</span>
+                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white">유키의 시그니처 미식(美食)</h2>
+                <div class="w-12 h-1 bg-brand-gold mx-auto rounded-full"></div>
+                <p class="text-gray-400 max-w-xl mx-auto text-sm sm:text-base">엄선한 사시미부터 직접 반죽하고 튀겨낸 바삭함의 극치 가라아게까지, 유키의 대표 안주들을 구경해 보세요.</p>
+            </div>
+
+            <!-- Tab Buttons -->
+            <div class="flex items-center justify-center space-x-2 sm:space-x-4 mb-12 border-b border-white/5 pb-4 overflow-x-auto whitespace-nowrap">
+                <button onclick="switchTab('all')" class="menu-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all bg-brand-gold text-brand-dark font-bold" id="tab-all">전체보기</button>
+                <button onclick="switchTab('sashimi')" class="menu-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all text-gray-400 hover:text-white" id="tab-sashimi">사시미 & 타다끼</button>
+                <button onclick="switchTab('nabe')" class="menu-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all text-gray-400 hover:text-white" id="tab-nabe">뜨끈한 나베요리</button>
+                <button onclick="switchTab('fries')" class="menu-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all text-gray-400 hover:text-white" id="tab-fries">수제 튀김 & 철판</button>
+                <button onclick="switchTab('sides')" class="menu-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all text-gray-400 hover:text-white" id="tab-sides">주류 & 기본안주</button>
+            </div>
+
+            <!-- Menu Grid Container -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="menu-grid">
+                
+                <!-- MENU ITEM 1 (Sashimi) -->
+                <div class="menu-card bg-brand-card rounded-2xl overflow-hidden border border-white/5 hover:border-brand-gold/30 transition-all duration-300 group" data-category="sashimi">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1534482421-64566f976cfa?q=80&w=600&auto=format&fit=crop" alt="모듬 사시미" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <span class="absolute top-4 right-4 bg-brand-gold text-brand-dark text-xs font-bold px-3 py-1 rounded-full shadow-lg">인기 대표</span>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-bold font-serif text-white">모듬사시미 (소)</h3>
+                            <span class="text-brand-gold font-bold text-lg font-serif">35,000원</span>
+                        </div>
+                        <p class="text-sm text-gray-400 leading-relaxed">광어, 참치, 신선한 연어와 전복을 당일 엄선하여 갓 썰어내는 플레이트. 한 점에 사케 한 모금의 사치.</p>
+                        <div class="text-xs text-gray-500 flex items-center justify-between border-t border-white/5 pt-4">
+                            <span>#싱싱함보장 #참치광어연어</span>
+                            <span class="text-brand-goldLight"><i class="fa-solid fa-beer-mug-empty mr-1"></i> 하쿠시카 사케 추천</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MENU ITEM 2 (Sashimi) -->
+                <div class="menu-card bg-brand-card rounded-2xl overflow-hidden border border-white/5 hover:border-brand-gold/30 transition-all duration-300 group" data-category="sashimi">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=600&auto=format&fit=crop" alt="딱새우 사시미" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <span class="absolute top-4 right-4 bg-brand-dark/80 border border-brand-gold/30 text-brand-gold text-xs font-bold px-3 py-1 rounded-full shadow-lg">주문 폭발</span>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-bold font-serif text-white">딱새우 사시미</h3>
+                            <span class="text-brand-gold font-bold text-lg font-serif">35,000원</span>
+                        </div>
+                        <p class="text-sm text-gray-400 leading-relaxed">입 안에 넣자마자 혀 위에서 사르르 녹아내리는 극상의 달콤함과 탱글한 텍스처를 자랑하는 청라 최고의 딱새우.</p>
+                        <div class="text-xs text-gray-500 flex items-center justify-between border-t border-white/5 pt-4">
+                            <span>#달콤탱글 #여성인기1위</span>
+                            <span class="text-brand-goldLight"><i class="fa-solid fa-beer-mug-empty mr-1"></i> 하이볼 강추</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MENU ITEM 3 (Nabe) -->
+                <div class="menu-card bg-brand-card rounded-2xl overflow-hidden border border-white/5 hover:border-brand-gold/30 transition-all duration-300 group" data-category="nabe">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=600&auto=format&fit=crop" alt="스키야끼" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-bold font-serif text-white">정통 스키야끼</h3>
+                            <span class="text-brand-gold font-bold text-lg font-serif">28,000원</span>
+                        </div>
+                        <p class="text-sm text-gray-400 leading-relaxed">달콤 짭조름한 비법 간장 육수에 신선한 소고기와 가득 담긴 청경채, 두부, 버섯을 보글보글 끓여 계란 노른자에 콕 찍어 먹는 탕.</p>
+                        <div class="text-xs text-gray-500 flex items-center justify-between border-t border-white/5 pt-4">
+                            <span>#식사겸안주 #해장용국물</span>
+                            <span class="text-brand-goldLight"><i class="fa-solid fa-beer-mug-empty mr-1"></i> 도쿠리 사케 추천</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MENU ITEM 4 (Fries) -->
+                <div class="menu-card bg-brand-card rounded-2xl overflow-hidden border border-white/5 hover:border-brand-gold/30 transition-all duration-300 group" data-category="fries">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=600&auto=format&fit=crop" alt="바삭함의 정석 문어가라아게" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <span class="absolute top-4 right-4 bg-brand-gold text-brand-dark text-xs font-bold px-3 py-1 rounded-full shadow-lg">리뷰 극찬</span>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-bold font-serif text-white">통통 문어 가라아게</h3>
+                            <span class="text-brand-gold font-bold text-lg font-serif">24,000원</span>
+                        </div>
+                        <p class="text-sm text-gray-400 leading-relaxed">"튀김 미쳤다!" 소리가 절로 나오는 극강의 바삭함. 크고 실한 진짜 참문어를 특제 소스 반죽으로 바삭하게 튀겼습니다.</p>
+                        <div class="text-xs text-gray-500 flex items-center justify-between border-t border-white/5 pt-4">
+                            <span>#겉바속촉끝판왕 #수제튀김</span>
+                            <span class="text-brand-goldLight"><i class="fa-solid fa-beer-mug-empty mr-1"></i> 아사히 맥주 환상의 페어링</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MENU ITEM 5 (Fries) -->
+                <div class="menu-card bg-brand-card rounded-2xl overflow-hidden border border-white/5 hover:border-brand-gold/30 transition-all duration-300 group" data-category="fries">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=600&auto=format&fit=crop" alt="소고기 타다끼" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-bold font-serif text-white">명품 소고기 타다끼</h3>
+                            <span class="text-brand-gold font-bold text-lg font-serif">26,000원</span>
+                        </div>
+                        <p class="text-sm text-gray-400 leading-relaxed">겉면만 고온의 참숯 불로 빠르게 그을려 육즙을 완벽 봉인한 소고기 타다끼. 특제 폰즈 소스, 양파 슬라이스 조합이 완벽한 궁합.</p>
+                        <div class="text-xs text-gray-500 flex items-center justify-between border-t border-white/5 pt-4">
+                            <span>#입안에서사르르 #참숯향</span>
+                            <span class="text-brand-goldLight"><i class="fa-solid fa-beer-mug-empty mr-1"></i> 레드 와인/맥주 모두 굿</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MENU ITEM 6 (Sides) -->
+                <div class="menu-card bg-brand-card rounded-2xl overflow-hidden border border-white/5 hover:border-brand-gold/30 transition-all duration-300 group" data-category="sides">
+                    <div class="h-56 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-brand-dark to-brand-card flex items-center justify-center p-6 text-center">
+                            <div class="space-y-3">
+                                <i class="fa-solid fa-cookie-bite text-5xl text-brand-gold animate-bounce"></i>
+                                <h4 class="text-lg font-bold text-white font-serif">유키 기본 제공 별미 안주</h4>
+                                <p class="text-xs text-gray-400">단무지 무침 & 짭쪼름한 프레첼 과자</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-bold font-serif text-white">무료 기본안주 & 시그니처 술</h3>
+                            <span class="text-brand-gold font-bold text-lg font-serif">무료 무한제공</span>
+                        </div>
+                        <p class="text-sm text-gray-400 leading-relaxed">"단무지랑 과자만 있어도 하이볼 한잔 뚝딱!" 손님들의 입소문 자자한 감칠맛 단무지와 한없이 손이 가는 마법의 짭조름 프레첼.</p>
+                        <div class="text-xs text-gray-500 flex items-center justify-between border-t border-white/5 pt-4">
+                            <span>#기본안주맛집 #하이볼안주</span>
+                            <span class="text-brand-goldLight"><i class="fa-solid fa-beer-mug-empty mr-1"></i> 산토리 생맥주 추천</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE SEAT SELECTOR SECTION -->
+    <section id="seats" class="py-24 bg-gradient-to-b from-brand-dark to-brand-card/20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center space-y-3 mb-16">
+                <span class="text-brand-gold font-bold tracking-widest text-xs uppercase">Choose Your Vibe</span>
+                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white">유키 가상 좌석 체험관</h2>
+                <div class="w-12 h-1 bg-brand-gold mx-auto rounded-full"></div>
+                <p class="text-gray-400 max-w-xl mx-auto text-sm sm:text-base">어떤 감성의 밤을 원하시나요? 클릭해서 내부 무드와 전망을 미리 확인해 보세요.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <!-- Left: Seat Selector Visual Interactive Grid -->
+                <div class="lg:col-span-7 bg-brand-card border border-white/10 rounded-3xl p-6 sm:p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-bold text-white flex items-center">
+                                <i class="fa-solid fa-map text-brand-gold mr-2.5"></i> 유키 내부 좌석 배치 가상도
+                            </h3>
+                            <span class="text-xs text-gray-500"><i class="fa-solid fa-hand-pointer mr-1.5 text-brand-gold animate-bounce"></i> 각 구역을 눌러 무드 보기</span>
+                        </div>
+
+                        <!-- Visual Grid Layout of Restaurant -->
+                        <div class="space-y-4">
+                            <!-- High End Terraces / Canal View -->
+                            <div onclick="selectSeat('canal')" id="seat-btn-canal" class="seat-zone cursor-pointer p-5 rounded-2xl border-2 border-brand-gold bg-brand-gold/10 hover:bg-brand-gold/15 transition-all flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold">
+                                        <i class="fa-solid fa-water"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-white text-sm sm:text-base">커넬웨이 수변 창가석 (A구역)</h4>
+                                        <p class="text-xs text-gray-400">커넬웨이의 아름다운 물빛 야경이 바로 내려다보이는 창가</p>
+                                    </div>
+                                </div>
+                                <span class="px-2.5 py-1 rounded bg-brand-gold/20 text-brand-goldLight text-xs font-bold uppercase">최고 인기</span>
+                            </div>
+
+                            <!-- Private Tatami Room -->
+                            <div onclick="selectSeat('tatami')" id="seat-btn-tatami" class="seat-zone cursor-pointer p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center text-brand-gold">
+                                        <i class="fa-solid fa-door-closed"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-white text-sm sm:text-base">프라이빗 다다미방 (B구역 - 호리타타미)</h4>
+                                        <p class="text-xs text-gray-400">발을 밑으로 편하게 넣는 정통 다다미식 아늑한 분리형 룸</p>
+                                    </div>
+                                </div>
+                                <span class="px-2.5 py-1 rounded bg-white/10 text-gray-300 text-xs font-bold uppercase">비밀보장</span>
+                            </div>
+
+                            <!-- Open Bar / Sushi Counter -->
+                            <div onclick="selectSeat('bar')" id="seat-btn-bar" class="seat-zone cursor-pointer p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center text-brand-gold">
+                                        <i class="fa-solid fa-utensils"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-white text-sm sm:text-base">오픈형 다찌 카운터석 (C구역)</h4>
+                                        <p class="text-xs text-gray-400">혼술, 2인 데이트, 요리하는 생생한 감성을 직접 즐기는 바</p>
+                                    </div>
+                                </div>
+                                <span class="px-2.5 py-1 rounded bg-white/10 text-gray-400 text-xs font-bold uppercase">감성 혼술</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex items-center space-x-3 bg-brand-dark/40 p-4 rounded-xl border border-white/5">
+                        <i class="fa-solid fa-triangle-exclamation text-brand-gold text-lg"></i>
+                        <span class="text-xs text-gray-400 leading-relaxed">
+                            <strong>좌석 예약 참고:</strong> 주말에는 다다미룸(B구역) 예약 선호도가 매우 높으므로 사전에 실시간 예약을 권장해 드립니다.
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Right: Active Seat Details (Dynamic Vibe Display) -->
+                <div class="lg:col-span-5 bg-gradient-to-br from-brand-card to-brand-dark border border-brand-gold/20 rounded-3xl p-6 sm:p-8 flex flex-col justify-between" id="seat-details-panel">
+                    
+                    <!-- DYNAMIC CONTENT (Will change on click via JS) -->
+                    <div id="dynamic-seat-content" class="space-y-6">
+                        <div class="h-60 rounded-2xl overflow-hidden relative">
+                            <!-- Visual mood dynamic image -->
+                            <img id="seat-img" src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?q=80&w=600&auto=format&fit=crop" alt="커넬웨이 수변 창가석" class="w-full h-full object-cover">
+                            <span class="absolute bottom-4 left-4 bg-black/70 backdrop-blur-md text-brand-gold font-bold text-xs px-3 py-1.5 rounded-lg border border-brand-gold/30">
+                                Real Vibe Preview
+                            </span>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="bg-brand-gold/15 border border-brand-gold/30 text-brand-gold text-xs font-bold px-2.5 py-1 rounded-md" id="seat-badge">A구역 수변석</span>
+                                <span class="text-xs text-gray-400">추천 인원: 2~4인</span>
+                            </div>
+                            <h3 class="text-2xl font-serif font-bold text-white" id="seat-title">커넬웨이 수변 창가석</h3>
+                            <p class="text-sm text-gray-300 leading-relaxed" id="seat-desc">
+                                유키를 청라 최고 핫플레이스로 만든 장소입니다. 커넬웨이가 정면으로 보이는 창가 자리로, 밤이 되면 수변로에 켜지는 은은한 조명과 도시 야경을 고스란히 담아 로맨틱한 데이트 무드의 결정체를 선사합니다.
+                            </p>
+                        </div>
+
+                        <div class="bg-brand-dark/80 p-4 rounded-xl border border-white/5 space-y-2">
+                            <span class="text-[11px] uppercase tracking-wider text-brand-gold block font-semibold">실제 고객 한 줄 평</span>
+                            <p class="text-xs text-gray-400 italic" id="seat-review">
+                                "커넬웨이 바로 앞이라 뷰 좋구 분위기도 너무좋아요♡ 회도 싱싱하고 진짜 일본 여행 온 기분이 들었어요!" - 행복한ssang님
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-white/10 mt-6">
+                        <button onclick="scrollToReservation()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-gold to-yellow-600 text-brand-dark font-bold hover:shadow-lg hover:shadow-brand-gold/20 transition-all flex items-center justify-center space-x-2">
+                            <span>이 구역 자리 선점 예약하기</span>
+                            <i class="fa-solid fa-angle-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CUSTOMER REVIEWS WALL (Real Reviews) -->
+    <section id="reviews" class="py-24 bg-brand-dark relative overflow-hidden">
+        <!-- Floating Japanese Lanterns or graphic elements -->
+        <div class="absolute top-10 left-10 w-24 h-24 bg-brand-gold/5 rounded-full blur-2xl"></div>
+        <div class="absolute bottom-10 right-10 w-32 h-32 bg-brand-gold/5 rounded-full blur-2xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+                <div class="space-y-3">
+                    <span class="text-brand-gold font-bold tracking-widest text-xs uppercase">Real Reviews</span>
+                    <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white">단골들이 보증하는 생생 후기</h2>
+                    <div class="w-12 h-1 bg-brand-gold rounded-full"></div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="slideReview('prev')" class="w-12 h-12 rounded-full border border-white/15 bg-brand-card hover:bg-brand-gold hover:text-brand-dark transition-all flex items-center justify-center text-white" aria-label="이전 리뷰">
+                        <i class="fa-solid fa-angle-left"></i>
+                    </button>
+                    <button onclick="slideReview('next')" class="w-12 h-12 rounded-full border border-white/15 bg-brand-card hover:bg-brand-gold hover:text-brand-dark transition-all flex items-center justify-center text-white" aria-label="다음 리뷰">
+                        <i class="fa-solid fa-angle-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Review Card Slider -->
+            <div class="relative overflow-hidden w-full h-[380px] md:h-[280px]">
+                <div class="absolute flex space-x-6 transition-transform duration-500 ease-out" id="review-track">
+                    
+                    <!-- Review Card 1 -->
+                    <div class="w-[300px] sm:w-[450px] flex-shrink-0 bg-brand-card border border-white/5 rounded-2xl p-6 flex flex-col justify-between space-y-4 shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center font-bold text-brand-gold text-sm">
+                                    너
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">너의 의미38</h4>
+                                    <span class="text-[11px] text-gray-500">2025.12.14 일요일</span>
+                                </div>
+                            </div>
+                            <div class="flex text-brand-gold text-xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-300 leading-relaxed flex-grow">
+                            "퇴근 후 금요일 저녁에 유키 와서 한 잔 마시니까 그저 힐링 그 자체예요... 내부에 프라이빗한 좌석은 딱 4인 정도 조용히 대화 나누기 아주 좋고, 분위기도 너무 아늑해요. 화장실도 전용으로 가깝고 엄청 깨끗해서 데이트 장소로 강추합니다!"
+                        </p>
+                        <div class="flex items-center justify-between text-xs text-brand-goldLight pt-2 border-t border-white/5">
+                            <span>방문 추천: 데이트 / 4인 모임</span>
+                            <span class="bg-brand-gold/10 px-2 py-0.5 rounded text-[10px]">#분위기맛집</span>
+                        </div>
+                    </div>
+
+                    <!-- Review Card 2 -->
+                    <div class="w-[300px] sm:w-[450px] flex-shrink-0 bg-brand-card border border-white/5 rounded-2xl p-6 flex flex-col justify-between space-y-4 shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center font-bold text-brand-gold text-sm">
+                                    ki
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">kiongeee</h4>
+                                    <span class="text-[11px] text-gray-500">2025.10.29 수요일</span>
+                                </div>
+                            </div>
+                            <div class="flex text-brand-gold text-xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-300 leading-relaxed flex-grow">
+                            "연말 모임으로 청라 유키에서 술 한잔했어요. 술은 사케 마셨고 안주는 모듬으로 시켰는데, 진짜 음식 맛 훌륭하고 분위기 최고입니다! 무엇보다 좌식이지만 테이블 밑으로 발을 편하게 뺄 수 있는 정통 일본 스타일이라 대만족이었습니다."
+                        </p>
+                        <div class="flex items-center justify-between text-xs text-brand-goldLight pt-2 border-t border-white/5">
+                            <span>방문 추천: 연말 모임 / 단체</span>
+                            <span class="bg-brand-gold/10 px-2 py-0.5 rounded text-[10px]">#진짜일본스타일</span>
+                        </div>
+                    </div>
+
+                    <!-- Review Card 3 -->
+                    <div class="w-[300px] sm:w-[450px] flex-shrink-0 bg-brand-card border border-white/5 rounded-2xl p-6 flex flex-col justify-between space-y-4 shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center font-bold text-brand-gold text-sm">
+                                    가
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">가슴애린목소리</h4>
+                                    <span class="text-[11px] text-gray-500">단골 영수증 리뷰</span>
+                                </div>
+                            </div>
+                            <div class="flex text-brand-gold text-xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-300 leading-relaxed flex-grow">
+                            "소고기가 신선해서 입에서 살살 녹아요. 따스한 국물 차돌해물짬뽕은 야채 빵빵하고 최고입니다. 처음 먹어보는 세세리볶음(닭목살)은 진짜 한 입 먹자마자 너무 부드러워서 깜짝 놀랐네요! 노키즈존이라 신랑이랑 데이트할 때만 가지만 대만족!"
+                        </p>
+                        <div class="flex items-center justify-between text-xs text-brand-goldLight pt-2 border-t border-white/5">
+                            <span>방문 추천: 자유부부 데이트</span>
+                            <span class="bg-brand-gold/10 px-2 py-0.5 rounded text-[10px]">#세세리닭목살최고</span>
+                        </div>
+                    </div>
+
+                    <!-- Review Card 4 -->
+                    <div class="w-[300px] sm:w-[450px] flex-shrink-0 bg-brand-card border border-white/5 rounded-2xl p-6 flex flex-col justify-between space-y-4 shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center font-bold text-brand-gold text-sm">
+                                    양
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">양촌읍고라니</h4>
+                                    <span class="text-[11px] text-gray-500">2025.09.27 토요일</span>
+                                </div>
+                            </div>
+                            <div class="flex text-brand-gold text-xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-300 leading-relaxed flex-grow">
+                            "매번 오면 사시미 위주로 시켰다가 이번에는 국물나베를 주문했는데 해장하면서 술 먹는 기분이었습니다. 건더기도 실하고 국물 대박. 칸막이로 프라이빗해서 직장 동료들이나 대화 나누기에 너무 만족스럽습니다."
+                        </p>
+                        <div class="flex items-center justify-between text-xs text-brand-goldLight pt-2 border-t border-white/5">
+                            <span>방문 추천: 사시미 & 나베 러버</span>
+                            <span class="bg-brand-gold/10 px-2 py-0.5 rounded text-[10px]">#국물깔끔해장</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REALTIME RESERVATION SECTION -->
+    <section id="reservation" class="py-24 bg-gradient-to-t from-brand-dark to-brand-card/30 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="bg-brand-card border border-brand-gold/30 rounded-3xl p-8 sm:p-12 shadow-2xl relative">
+                
+                <div class="text-center space-y-3 mb-10">
+                    <span class="text-brand-gold font-bold tracking-widest text-xs uppercase">Premium Booking</span>
+                    <h2 class="text-3xl font-serif font-bold text-white">온라인 간편 자리 예약 신청</h2>
+                    <p class="text-xs sm:text-sm text-gray-400">현장 상황 조율 후, 10분 내로 예약 확인 확정 문자가 발송됩니다.</p>
+                </div>
+
+                <form id="booking-form" onsubmit="handleBooking(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Name -->
+                        <div class="space-y-2">
+                            <label class="text-xs font-semibold text-gray-300 uppercase tracking-wider block">예약자 성함</label>
+                            <input type="text" required placeholder="홍길동" class="w-full bg-brand-dark border border-white/15 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-brand-gold transition">
+                        </div>
+                        <!-- Phone -->
+                        <div class="space-y-2">
+                            <label class="text-xs font-semibold text-gray-300 uppercase tracking-wider block">연락처</label>
+                            <input type="tel" required placeholder="010-1234-5678" class="w-full bg-brand-dark border border-white/15 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-brand-gold transition">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Date -->
+                        <div class="space-y-2">
+                            <label class="text-xs font-semibold text-gray-300 uppercase tracking-wider block">예약 희망일</label>
+                            <input type="date" required class="w-full bg-brand-dark border border-white/15 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-brand-gold transition">
+                        </div>
+                        <!-- Time -->
+                        <div class="space-y-2">
+                            <label class="text-xs font-semibold text-gray-300 uppercase tracking-wider block">방문 시간</label>
+                            <select required class="w-full bg-brand-dark border border-white/15 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-brand-gold transition">
+                                <option value="">시간 선택</option>
+                                <option value="17:00">17:00 (오픈)</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">19:00 (피크타임)</option>
+                                <option value="20:00">20:00</option>
+                                <option value="21:00">21:00</option>
+                                <option value="22:00">22:00 이후</option>
+                            </select>
+                        </div>
+                        <!-- Guests -->
+                        <div class="space-y-2">
+                            <label class="text-xs font-semibold text-gray-300 uppercase tracking-wider block">인원수</label>
+                            <select required class="w-full bg-brand-dark border border-white/15 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-brand-gold transition">
+                                <option value="">인원 선택</option>
+                                <option value="1">1인 (다찌석)</option>
+                                <option value="2">2인</option>
+                                <option value="3">3인</option>
+                                <option value="4">4인</option>
+                                <option value="group">5인 이상 (단체석 문의)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Seat Preference -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold text-gray-300 uppercase tracking-wider block">희망 구역 선택</label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <label class="cursor-pointer border border-white/10 rounded-xl p-3 flex flex-col items-center justify-center bg-brand-dark text-center hover:border-brand-gold transition">
+                                <input type="radio" name="seat_pref" value="canal" checked class="sr-only peer">
+                                <i class="fa-solid fa-water text-gray-500 peer-checked:text-brand-gold mb-1"></i>
+                                <span class="text-xs text-white">수변 창가석</span>
+                            </label>
+                            <label class="cursor-pointer border border-white/10 rounded-xl p-3 flex flex-col items-center justify-center bg-brand-dark text-center hover:border-brand-gold transition">
+                                <input type="radio" name="seat_pref" value="tatami" class="sr-only peer">
+                                <i class="fa-solid fa-door-closed text-gray-500 peer-checked:text-brand-gold mb-1"></i>
+                                <span class="text-xs text-white">다다미룸</span>
+                            </label>
+                            <label class="cursor-pointer border border-white/10 rounded-xl p-3 flex flex-col items-center justify-center bg-brand-dark text-center hover:border-brand-gold transition">
+                                <input type="radio" name="seat_pref" value="bar" class="sr-only peer">
+                                <i class="fa-solid fa-utensils text-gray-500 peer-checked:text-brand-gold mb-1"></i>
+                                <span class="text-xs text-white">오픈 다찌석</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Note / Special Request -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold text-gray-300 uppercase tracking-wider block">요청 사항 (생일, 알레르기 등)</label>
+                        <textarea rows="3" placeholder="예: 조용한 구석 자리로 부탁드립니다." class="w-full bg-brand-dark border border-white/15 rounded-xl p-4 text-white placeholder-gray-500 focus:outline-none focus:border-brand-gold transition"></textarea>
+                    </div>
+
+                    <!-- No kids note consent -->
+                    <div class="flex items-start space-x-3 bg-brand-gold/5 border border-brand-gold/10 p-4 rounded-xl">
+                        <input type="checkbox" required id="nokids-consent" class="mt-1 accent-brand-gold">
+                        <label for="nokids-consent" class="text-xs text-gray-400 leading-relaxed cursor-pointer">
+                            [동의 필수] 유키는 만 19세 이하의 출입을 제한하는 <strong>노키즈존(No-Kids Zone)</strong>으로 차분한 분위기를 위해 상호간 매너 유지를 원칙으로 운영됩니다. 동의하십니까?
+                        </label>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-gold to-yellow-600 text-brand-dark font-bold hover:scale-[1.01] transition-all duration-300 shadow-xl shadow-brand-gold/25 text-base flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>예약 신청 전송하기</span>
+                    </button>
+                </form>
+
+                <!-- Success Message Display -->
+                <div id="booking-success" class="hidden absolute inset-0 bg-brand-card rounded-3xl p-8 flex flex-col items-center justify-center text-center space-y-6">
+                    <div class="w-20 h-20 bg-brand-gold/15 border-2 border-brand-gold/30 rounded-full flex items-center justify-center text-brand-gold text-4xl animate-bounce">
+                        <i class="fa-solid fa-glass-cheers"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-2xl font-serif font-bold text-white">예약 신청이 접수되었습니다!</h3>
+                        <p class="text-sm text-gray-400 max-w-sm mx-auto">
+                            실시간 좌석 현황 조율 후 기재해 주신 휴대전화로 10분 내 예약 확정 확약 문자(또는 전화)를 드리겠습니다.
+                        </p>
+                    </div>
+                    <button onclick="resetBookingForm()" class="px-6 py-2.5 rounded-xl border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-dark transition-all text-sm font-semibold">
+                        처음으로 돌아가기
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & CONTACT SECTION (Visual Map Component) -->
+    <section id="location" class="py-24 bg-brand-dark relative border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Details Info -->
+                <div class="lg:col-span-5 space-y-8">
+                    <div class="space-y-3">
+                        <span class="text-brand-gold font-bold tracking-widest text-xs uppercase">Find Us</span>
+                        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white">오시는 길 & 매장 안내</h2>
+                        <div class="w-12 h-1 bg-brand-gold rounded-full"></div>
+                    </div>
+
+                    <div class="space-y-6 text-sm">
+                        <!-- Address -->
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-brand-gold flex-shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <span class="text-gray-500 font-semibold block uppercase text-xs">주소</span>
+                                <p class="text-gray-300 font-medium">인천 서구 크리스탈로 84 레이크가든 지하</p>
+                                <p class="text-xs text-gray-400 leading-relaxed">커넬웨이와 호수공원이 바로 만나는 힐링 수변지하 연결지점</p>
+                                <button onclick="copyAddress()" class="px-3 py-1 bg-white/5 text-xs text-brand-gold rounded-lg hover:bg-white/10 transition flex items-center space-x-1.5 border border-white/10 active:scale-95">
+                                    <i class="fa-solid fa-copy"></i>
+                                    <span id="copy-btn-text">지번 주소 복사하기</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-brand-gold flex-shrink-0">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div class="space-y-1">
+                                <span class="text-gray-500 font-semibold block uppercase text-xs">전화 번호</span>
+                                <p class="text-gray-300 font-medium text-lg">0507-1409-4794 <span class="text-xs text-gray-500 font-normal">안내</span></p>
+                                <p class="text-xs text-gray-400">or 032-567-4794</p>
+                            </div>
+                        </div>
+
+                        <!-- Parking -->
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-brand-gold flex-shrink-0">
+                                <i class="fa-solid fa-square-p"></i>
+                            </div>
+                            <div class="space-y-1">
+                                <span class="text-gray-500 font-semibold block uppercase text-xs">편의 및 주차 안내</span>
+                                <p class="text-gray-300">레이크가든 지하 상가 무료 주차 가능, 무선 인터넷(Wi-Fi), 남/녀 화장실 구분 완벽</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exterior/Interior Quick Showcase Preview Slider -->
+                    <div class="bg-brand-card/80 p-5 rounded-2xl border border-white/5 space-y-4">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-brand-goldLight flex items-center">
+                            <i class="fa-solid fa-images mr-1.5"></i> 매장 스케치 포토
+                        </h4>
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="h-20 rounded-lg overflow-hidden border border-white/10">
+                                <img src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?q=80&w=200&auto=format&fit=crop" alt="매장 내경" class="w-full h-full object-cover hover:scale-110 transition duration-300">
+                            </div>
+                            <div class="h-20 rounded-lg overflow-hidden border border-white/10">
+                                <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=200&auto=format&fit=crop" alt="음식" class="w-full h-full object-cover hover:scale-110 transition duration-300">
+                            </div>
+                            <div class="h-20 rounded-lg overflow-hidden border border-white/10 bg-brand-dark flex flex-col items-center justify-center text-[10px] text-gray-500 text-center">
+                                <i class="fa-solid fa-plus text-brand-gold mb-1 text-sm"></i>
+                                <span>더 보기</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Map Visual Container -->
+                <div class="lg:col-span-7 h-[450px] rounded-3xl overflow-hidden border border-brand-gold/20 relative shadow-2xl">
+                    <!-- Illustrated Web Map Canvas Placeholder for elegant representation -->
+                    <div class="absolute inset-0 bg-[#16181F] flex flex-col items-center justify-center p-8 text-center space-y-4">
+                        <div class="w-16 h-16 rounded-full bg-brand-gold/15 flex items-center justify-center text-brand-gold text-3xl border border-brand-gold/30">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <h3 class="text-xl font-bold text-white font-serif">인천 청라 커넬웨이 수변공원 연결로</h3>
+                            <p class="text-xs text-gray-400 max-w-sm mx-auto">
+                                레이크가든 건물 지하 수변로 레벨에 바로 입점해 있어 보행로에서 막힘 없이 보입니다.
+                            </p>
+                        </div>
+                        
+                        <!-- Mini Mock Map Graphics -->
+                        <div class="w-full max-w-md h-32 bg-brand-dark/80 rounded-xl relative overflow-hidden border border-white/5 p-4 flex items-center justify-center">
+                            <!-- Graphical Map Nodes -->
+                            <div class="absolute w-full h-0.5 bg-sky-900/40 left-0 top-1/2 -translate-y-1/2 flex items-center justify-center">
+                                <span class="bg-sky-900/80 px-2 py-0.5 rounded text-[9px] text-sky-200 tracking-widest uppercase">Canalway (커넬웨이)</span>
+                            </div>
+                            <div class="absolute w-0.5 h-full bg-gray-800 left-1/3"></div>
+                            
+                            <!-- Destination Pin -->
+                            <div class="absolute left-1/2 top-1/3 -translate-x-1/2 flex flex-col items-center">
+                                <div class="bg-brand-gold text-brand-dark px-3 py-1 rounded-full text-[10px] font-bold shadow-lg flex items-center space-x-1">
+                                    <i class="fa-solid fa-store"></i>
+                                    <span>유키 (Yuki)</span>
+                                </div>
+                                <div class="w-1 h-3 bg-brand-gold"></div>
+                            </div>
+                        </div>
+
+                        <!-- Real Map Redirection Controls -->
+                        <div class="flex flex-wrap gap-3 items-center justify-center pt-2">
+                            <a href="https://map.naver.com" target="_blank" class="px-5 py-2.5 rounded-xl bg-[#03C75A] text-white font-bold text-xs flex items-center space-x-1.5 shadow-lg shadow-[#03C75A]/20 hover:scale-105 transition">
+                                <span>네이버 지도에서 보기</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                            </a>
+                            <a href="https://map.kakao.com" target="_blank" class="px-5 py-2.5 rounded-xl bg-[#FEE500] text-[#191919] font-bold text-xs flex items-center space-x-1.5 shadow-lg shadow-[#FEE500]/20 hover:scale-105 transition">
+                                <span>카카오맵에서 보기</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-dark border-t border-white/5 py-12 text-gray-500 text-xs tracking-wider">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex flex-col items-center sm:items-start space-y-2">
+                <span class="font-brand text-xl font-bold tracking-widest text-brand-gold">YUKI</span>
+                <p>© 2026 이자카야 유키 청라점. All Rights Reserved.</p>
+            </div>
+            
+            <div class="flex space-x-6 text-sm text-gray-400">
+                <a href="https://instagram.com" target="_blank" class="hover:text-brand-gold transition"><i class="fa-brands fa-instagram text-lg"></i></a>
+                <a href="#" class="hover:text-brand-gold transition"><i class="fa-solid fa-comment-dots text-lg"></i></a>
+                <a href="tel:0507-1409-4794" class="hover:text-brand-gold transition"><i class="fa-solid fa-phone text-lg"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Blossom Animation Loader
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('blossom-container');
+            const count = 18; // optimal count to prevent lagging on mobile
+            for (let i = 0; i < count; i++) {
+                const blossom = document.createElement('div');
+                blossom.classList.add('blossom');
+                blossom.style.left = `${Math.random() * 100}vw`;
+                blossom.style.width = `${Math.random() * 8 + 6}px`;
+                blossom.style.height = `${Math.random() * 8 + 6}px`;
+                blossom.style.animationDuration = `${Math.random() * 10 + 6}s`;
+                blossom.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(blossom);
+            }
+        });
+
+        // Header Scrolling Dynamic styling
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('bg-brand-dark/95', 'py-1', 'shadow-xl');
+            } else {
+                header.classList.remove('bg-brand-dark/95', 'py-1', 'shadow-xl');
+            }
+        });
+
+        // Mobile Menu Toggler
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.className = "fa-solid fa-bars text-2xl";
+            } else {
+                menuIcon.className = "fa-solid fa-xmark text-2xl";
+            }
+        });
+
+        function toggleMobileMenu() {
+            mobileMenu.classList.add('hidden');
+            menuIcon.className = "fa-solid fa-bars text-2xl";
+        }
+
+        // Active Signature Menu Tab Filter logic
+        function switchTab(category) {
+            // Update active state of tab buttons
+            const tabs = document.querySelectorAll('.menu-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('bg-brand-gold', 'text-brand-dark', 'font-bold');
+                tab.classList.add('text-gray-400');
+            });
+
+            const currentTab = document.getElementById(`tab-${category}`);
+            if (currentTab) {
+                currentTab.classList.remove('text-gray-400');
+                currentTab.classList.add('bg-brand-gold', 'text-brand-dark', 'font-bold');
+            }
+
+            // Filter item cards
+            const cards = document.querySelectorAll('.menu-card');
+            cards.forEach(card => {
+                if (category === 'all') {
+                    card.classList.remove('hidden');
+                } else if (card.getAttribute('data-category') === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Interactive Seat Selection Vibe Display Data
+        const seatData = {
+            canal: {
+                title: "커넬웨이 수변 창가석",
+                badge: "A구역 수변석",
+                desc: "유키를 청라 최고 핫플레이스로 만든 주역 장소입니다. 커넬웨이가 정면으로 훤히 보이는 통창 구조의 창가 자리로, 밤이 되면 청라 신도시 특유의 물빛 수변 야경을 바로 곁에 두고 낭만적인 한잔을 나누실 수 있습니다.",
+                review: '"커넬웨이 바로 앞이라 뷰 좋구 분위기도 너무좋아요♡ 회도 싱싱하고 진짜 일본 여행 온 기분이 들었어요!" - 행복한ssang님',
+                img: "https://images.unsplash.com/photo-1543007630-9710e4a00a20?q=80&w=600&auto=format&fit=crop"
+            },
+            tatami: {
+                title: "프라이빗 다다미방 (호리타타미)",
+                badge: "B구역 다다미룸",
+                desc: "조용하고 방해받지 않는 독립적인 대화가 필요하실 때 최고의 솔루션입니다. 정통 일본식 룸 타입으로, 다리를 테이블 아래 빈 공간으로 편하게 내릴 수 있어 좌식의 편안함을 배가시켰습니다. 연인 데이트 및 미팅에 추천합니다.",
+                review: '"의자는 좌식이지만 테이블 밑으로 발을 넣을 수 있는 진짜 일본 스타일 좌석이라 오래 있어도 편하고 음식도 맛있습니다." - kiongeee님',
+                img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=600&auto=format&fit=crop"
+            },
+            bar: {
+                title: "오픈형 다찌 카운터석",
+                badge: "C구역 다찌석",
+                desc: "오너 셰프가 맛깔나는 사시미를 직접 썰어주고 문어를 정성스럽게 가라아게 튀김으로 구워내는 생생함을 직관하실 수 있는 감각적인 구역입니다. 혼술 또는 단둘이 가벼운 술잔을 기울이기 아주 좋은 낭만적인 무드입니다.",
+                review: '"혼술하기 좋고 직원분들이 엄청 친절하게 기본안주랑 사케 설명해주셔서 아사히 생맥주 원없이 들이켰습니다!" - 유웰님',
+                img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=600&auto=format&fit=crop"
+            }
+        };
+
+        function selectSeat(type) {
+            // Remove selection class from all seat list items
+            const zones = document.querySelectorAll('.seat-zone');
+            zones.forEach(zone => {
+                zone.classList.remove('border-brand-gold', 'bg-brand-gold/10', 'bg-brand-gold/15');
+                zone.classList.add('border-white/10', 'bg-white/5');
+            });
+
+            // Set current active styles
+            const activeZone = document.getElementById(`seat-btn-${type}`);
+            if (activeZone) {
+                activeZone.classList.remove('border-white/10', 'bg-white/5');
+                activeZone.classList.add('border-brand-gold', 'bg-brand-gold/10');
+            }
+
+            // Update Dynamic Side Preview Panel
+            const details = seatData[type];
+            if (details) {
+                document.getElementById('seat-img').src = details.img;
+                document.getElementById('seat-title').textContent = details.title;
+                document.getElementById('seat-badge').textContent = details.badge;
+                document.getElementById('seat-desc').textContent = details.desc;
+                document.getElementById('seat-review').textContent = details.review;
+            }
+        }
+
+        // Review Slider Carousel Logic
+        let currentReviewIndex = 0;
+        function slideReview(direction) {
+            const track = document.getElementById('review-track');
+            const totalCards = track.children.length;
+            
+            // Determine width of card based on screen sizing (300px on mobile, 450px on desktop + margin gap 24px)
+            const isMobile = window.innerWidth < 640;
+            const cardWidth = isMobile ? 324 : 474; // card size + margin spacing
+
+            if (direction === 'next') {
+                currentReviewIndex++;
+                if (currentReviewIndex >= totalCards - 1) {
+                    currentReviewIndex = 0; // seamless loop restart
+                }
+            } else {
+                currentReviewIndex--;
+                if (currentReviewIndex < 0) {
+                    currentReviewIndex = totalCards - 2 > 0 ? totalCards - 2 : 0;
+                }
+            }
+
+            track.style.transform = `translateX(-${currentReviewIndex * cardWidth}px)`;
+        }
+
+        // Handle Interactive Form Submission
+        function handleBooking(event) {
+            event.preventDefault();
+            const successOverlay = document.getElementById('booking-success');
+            successOverlay.classList.remove('hidden');
+        }
+
+        function resetBookingForm() {
+            const form = document.getElementById('booking-form');
+            form.reset();
+            const successOverlay = document.getElementById('booking-success');
+            successOverlay.classList.add('hidden');
+        }
+
+        // Scroll helper to Reservation section
+        function scrollToReservation() {
+            const target = document.getElementById('reservation');
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Clipboard Copy Action
+        function copyAddress() {
+            const dummy = document.createElement("input");
+            const addressText = "인천 서구 크리스탈로 84 레이크가든 지하";
+            document.body.appendChild(dummy);
+            dummy.value = addressText;
+            dummy.select();
+            document.execCommand("copy"); // Most robust compatible inside frames
+            document.body.removeChild(dummy);
+
+            const copyBtnText = document.getElementById('copy-btn-text');
+            copyBtnText.textContent = "복사 완료! 붙여넣기 해보세요";
+            copyBtnText.classList.add('text-green-400');
+            setTimeout(() => {
+                copyBtnText.textContent = "지번 주소 복사하기";
+                copyBtnText.classList.remove('text-green-400');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
